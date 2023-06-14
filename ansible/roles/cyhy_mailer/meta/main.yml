@@ -11,9 +11,8 @@ galaxy_info:
   platforms:
     - name: Debian
       versions:
-        - stretch
         - buster
-        - bullseye
+        - bookworm
   role_name: cyhy_mailer
 
 dependencies: []
