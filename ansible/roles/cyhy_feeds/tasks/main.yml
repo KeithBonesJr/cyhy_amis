@@ -61,7 +61,7 @@
 # interactive.
 - name: Import gpg keys
   ansible.builtin.shell:
-    cmd: "echo {{ item | quote }} | gpg2 --trustdb-name /var/cyhy/.gnupg/trustdb.gpg --import --batch"
+    cmd: set -o pipefail && echo {{ item | quote }} | gpg2 --trustdb-name /var/cyhy/.gnupg/trustdb.gpg --import --batch
   become_user: cyhy
   changed_when: "'imported: 1' in import_gpg_key.stderr"
   loop:
@@ -80,7 +80,7 @@
   # before quoting. A quoted newline causes a failure when gpg2 attempts to
   # import the owner trust.
   ansible.builtin.shell:
-    cmd: "echo {{ gpg_trust | trim | quote }} | gpg2 --import-ownertrust --batch"
+    cmd: set -o pipefail && echo {{ gpg_trust | trim | quote }} | gpg2 --import-ownertrust --batch
   become_user: cyhy
   changed_when: "'inserting ownertrust' in import_gpg_ownertrust.stderr"
   register: import_gpg_ownertrust
