@@ -179,6 +179,16 @@ variable "cloudwatch_alarm_emails" {
   type        = list(string)
 }
 
+variable "commander_config" {
+  default = {
+    jobs_per_nessus_host = 16
+    jobs_per_nmap_host   = 8
+    next_scan_limit      = 8192
+  }
+  description = "Configuration options for the CyHy commander's configuration file."
+  type        = object({ jobs_per_nessus_host = number, jobs_per_nmap_host = number, next_scan_limit = number })
+}
+
 variable "create_bod_flow_logs" {
   default     = false
   description = "Whether or not to create flow logs for the BOD 18-01 VPC."
