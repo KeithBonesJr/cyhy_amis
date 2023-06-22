@@ -6,7 +6,7 @@
 
 - name: Determine if cyhy-commander needs to be stopped
   ansible.builtin.set_fact:
-    stop_commander: "{{ 'cyhy-commander' in ansible_facts.services and ansible_facts.services['cyhy-commander'].state != 'stopped' }}"
+    mongo_stop_commander: "{{ 'cyhy-commander' in ansible_facts.services and ansible_facts.services['cyhy-commander'].state != 'stopped' }}"
 
 # This role will restart MongoDB no matter what which will make the
 # cyhy-commander unhappy if it is running
@@ -14,7 +14,7 @@
   ansible.builtin.service:
     name: cyhy-commander
     state: stopped
-  when: stop_commander
+  when: mongo_stop_commander
 
 - name: Check if any mongo users already exist
   ansible.builtin.command: mongo --eval 'db.getUsers()' admin
@@ -92,4 +92,4 @@
   ansible.builtin.service:
     name: cyhy-commander
     state: started
-  when: stop_commander
+  when: mongo_stop_commander
